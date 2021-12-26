@@ -1,0 +1,15 @@
+using Pkg                                                      #enabling Julia to access packages
+packages =['JuMP', 'GLPK']                                     #Naming the packages we want in one variable so they can be installed all at once
+Pkg.add(packages)                                              #Adding the packages
+using JuMP                                                     #Initialising the package
+using GLPK                                                     #Initialising the solver
+model= Model(GLPK.Optimizer)                                   #Defining the model
+@variable(model, x >= 0)                                       #Defining the variables and their characteristics
+@variable(model, y >= 0)
+@constraint(model, 6x + 8y >= 100)                             #Assigning the constraints
+@constraint(model, 7x + 12y >= 120)
+@objective(model, Min, 12x + 20y)                              #Defining the objective function
+optimize!(model)           
+@show value(x)
+@show value(y)
+@show objective_value(model)
